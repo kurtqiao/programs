@@ -19,6 +19,7 @@ main(int argc, char *argv[])
   initscr();
   noecho();
   curs_set(FALSE);
+  keypad(stdscr, TRUE);
   clear();
   srand((int)time(0));  
   getmaxyx(stdscr, max_win_y, max_win_x); 

@@ -250,24 +250,34 @@ key_control(SNAKE *snake)
   ch=getch();
 
   switch(ch){
-  case 0x61: //KEY_LEFT:
+  case KEY_LEFT:
+  case 0x61: //key a, 
     if (snake->snake_body.direct != D_RIGHT)
     snake->snake_body.direct = D_LEFT;
     break;
-  case 0x64: //KEY_RIGHT:
+  case KEY_RIGHT:
+  case 0x64: //key d, 
     if (snake->snake_body.direct != D_LEFT)
     snake->snake_body.direct = D_RIGHT;
     break;
-  case 0x77: //KEY_UP:
+  case KEY_UP:
+  case 0x77: //key w, 
     if (snake->snake_body.direct != D_DOWN)
     snake->snake_body.direct = D_UP;
     break;
-  case 0x73: //KEY_DOWN:
+  case KEY_DOWN:
+  case 0x73: //key s, 
     if (snake->snake_body.direct != D_UP)
     snake->snake_body.direct = D_DOWN;
     break;
-  case 0x71: //KEY_BACKSPACE:
+  case 0x71: //key q: quit`
     rc = 1;
+    break;
+  case 0x70: //key p, pause game
+    cbreak();
+    ch = getch();
+    if (ch == 0x71)
+      rc =1;
     break;
   default:
     break;
