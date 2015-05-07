@@ -174,9 +174,6 @@ snake_print(SNAKE *snake)
 {
   int i;
   POS *body=NULL;
-  //print head
-  mvaddch(snake->snake_body.Head.y, snake->snake_body.Head.x,\
-  	   snake->snake_body.head_char);
   //snake body link	
   body = snake->snake_body.body_list;
   
@@ -185,6 +182,9 @@ snake_print(SNAKE *snake)
   mvaddch(body->y, body->x, snake->snake_body.body_char);
   body = body->next;
   }
+  //print head
+  mvaddch(snake->snake_body.Head.y, snake->snake_body.Head.x,\
+  	   snake->snake_body.head_char);
   return 0;
 }
 
