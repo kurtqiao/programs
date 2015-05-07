@@ -137,7 +137,7 @@ snake_grow(void *s)
   body->x = snake->snake_body.Head.x;
   body->y = snake->snake_body.Head.y;
   body->next = snake->snake_body.body_list;
-  snake->snake_body.body_list = body->next;
+  snake->snake_body.body_list = body;
   snake->snake_body.length++;
   return NULL;  
 }
@@ -291,22 +291,19 @@ free_resources(FOOD *food, SNAKE *snake)
 {
   int i;
   POS *body, *tmpptr;
+
   if (food)
     free(food);
+
   if (snake){
    body = snake->snake_body.body_list;
    free(snake);
-
-  for (i=0; i<snake->snake_body.length; i++)
-  {
+   do{
     tmpptr = body;
-    body=body->next;
-    free(tmpptr);
-    if (body->next == NULL)
-      break;
-  }
-  if (body)
-    free(body);
+    body = body->next;
+    if (tmpptr)
+      free(tmpptr);
+   }while(body != NULL);
   }
   return 0;
 }
