@@ -63,8 +63,9 @@ probe_pci(){
   u32 t_did_vid;
   pci_dev_header *pdptr=NULL;
   pci_dev *tmpptr=NULL, *indexptr=NULL;
-
-  pdptr = malloc(sizeof(*pdptr));
+ 
+  //pdptr = malloc(sizeof(*pdptr));
+  pdptr = calloc(1, sizeof(pci_dev_header));
   pdptr->pdnode = NULL;
  //strcopy pdptr->signature = ('P','D','E','V');
 /* check class code for devices, 
