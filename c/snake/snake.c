@@ -40,8 +40,8 @@ snake_born()
   s->snake_body.head_char = SNAKE_HEAD_CHAR;
   s->snake_body.body_char = SNAKE_BODY_CHAR;
   s->snake_body.length = SNAKE_INIT_LENGTH;
-  s->snake_body.Head.x = COLS/2;
-  s->snake_body.Head.y = LINES/2;
+  s->snake_body.Head.x = rand()%((max_win_x-1)/2);//COLS/2;
+  s->snake_body.Head.y = rand()%((max_win_y-1)/2);//LINES/2;
   s->snake_body.direct = D_LEFT;
   s->snake_body.eaten = 0;
 
@@ -109,14 +109,14 @@ snake_move(void *s)
     break;
   }
   //implement go through screen
-  if (snake->snake_body.Head.x > max_win_x)
+  if (snake->snake_body.Head.x > max_win_x-1)
     snake->snake_body.Head.x = 0;
   if (snake->snake_body.Head.x < 0)
-    snake->snake_body.Head.x = max_win_x;
-  if (snake->snake_body.Head.y > max_win_y)
+    snake->snake_body.Head.x = max_win_x-1;
+  if (snake->snake_body.Head.y > max_win_y-1)
     snake->snake_body.Head.y = 0;
   if (snake->snake_body.Head.y < 0)
-    snake->snake_body.Head.y = max_win_y;
+    snake->snake_body.Head.y = max_win_y-1;
 /*
   //cut the tail of snake
   for (i=0; i<snake->snake_body.length-1;i++){

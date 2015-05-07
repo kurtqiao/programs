@@ -24,7 +24,7 @@ main(int argc, char *argv[])
   srand((int)time(0));  
   getmaxyx(stdscr, max_win_y, max_win_x); 
   snake = snake_born();
-  food = new_food(max_win_y, max_win_x);
+  food = new_food(max_win_y-1, max_win_x-1);
   
   do{
   getmaxyx(stdscr, max_win_y, max_win_x); 
@@ -32,7 +32,7 @@ main(int argc, char *argv[])
   halfdelay(game_level);
 
 
-  food->eaten?replace_food(food, snake, max_win_y, max_win_x):\
+  food->eaten?replace_food(food, snake, max_win_y-1, max_win_x-1):\
   	      mvaddch(food->locate[1], food->locate[0], FOOD_CHAR);
 
   snake_print(snake);
