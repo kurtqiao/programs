@@ -1,46 +1,47 @@
-import string
-import socket
-import subprocess
-import re
-import smtplib
+import string, socket, subprocess, re, smtplib
 from smtplib import SMTP_SSL
 
+SMTP_SERVER = "smtp.qq.com"
 #use your qq mail and psw
-send_user = "xxxxxxxxx@qq.com"
-send_pwd = "x12345"
+SENDER_USR = "xxxxxxxxx@qq.com"
+SENDER_PSW = "x12345"
 
 #setting mail list here
-mail_list = "kurtqqh@gmail.com,kurtqiao@qq.com"
-TO = string.splitfields(mail_list, ",")
+MAIL_LIST = "kurtqqh@gmail.com,xxxxxxxxx@qq.com"
 
-#get host ip address
-#!!gethostbyname will get IP address from Ethernet LAN first priority,
-#if ethernet have no IP, then will get WLAN IP address!!
-#
-hostname = socket.gethostname()
-ipaddr = socket.gethostbyname(hostname)
+def login_mail(svr, usr, psw):
+    #print(svr+usr+psw)
+    s = smtplib.SMTP(svr)
+    s.ehlo()
+    s.starttls()
+    s.ehlo()
+    s.login(usr, psw)
+    return s
 
-#add ipconfig result
-ipconfig_process = subprocess.Popen("ipconfig", stdout=subprocess.PIPE)
-output = ipconfig_process.stdout.read()
+def mail_content():
+    
+    #add ipconfig result
+    ipconfig_process = subprocess.Popen("ipconfig", stdout=subprocess.PIPE)
+    output = ipconfig_process.stdout.read()
+    #get host ip address
+    #!!gethostbyname will get IP address from Ethernet LAN first priority,
+    #if ethernet have no IP, then will get WLAN IP address!!
+    hostname = socket.gethostname()
+    ipaddr = socket.gethostbyname(hostname)
+    SUBJECT = "[Notify]IP Address Change!!"+ipaddr
+    TEXT = "System reboot, ip address change to "+ipaddr+'\r\n'+output
 
-
-SUBJECT = "[Notify]IP Address Change!!"+ipaddr
-TEXT = "System reboot, ip address change to "+ipaddr+'\r\n'+output
-
-#setting mail server
-server = smtplib.SMTP("smtp.qq.com")
-server.ehlo()
-server.starttls()
-server.ehlo()
-server.login(send_user, send_pwd)
-
-#setting mail body
-BODY = '\r\n'.join(['To: %s' % TO,
-       'From: %s' % send_user,
+    TO = string.splitfields(MAIL_LIST, ",")
+    #setting mail body
+    mail_body = '\r\n'.join(['To: %s' % TO,
+       'From: %s' % SENDER_USR,
        'Subject: %s' % SUBJECT,
        '', TEXT])
+    return [mail_body,TO]
 
-server.sendmail(send_user, TO, BODY)
+if __name__ == "__main__":
+    server = login_mail(SMTP_SERVER, SENDER_USR, SENDER_PSW)
+    [BODY,TO] = mail_content()
+    server.sendmail(SENDER_USR, TO, BODY)
 
-print ('email sent to '+ mail_list)
+    print ('email sent to '+ MAIL_LIST)
