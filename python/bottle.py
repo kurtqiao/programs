@@ -4,15 +4,18 @@ a bottle of wine: 2$
 exchange rule:
   2 bottle for 1 wine
   4 caps for 1 wine
+usage:
+  python bottle.py integer
+  integer = money
 '''
+import sys
 wine = 0
 bottle = 0
 cap = 0
 def buy_wine(money):
 	global wine
 	wine = money / 2
-	rest_money = money % 2
-	return rest_money
+	return money % 2
 
 def drink(w):
 	global bottle, cap
@@ -32,8 +35,6 @@ def exchange(b, h):
 
 def rock_n_roll(w):
 	global bottle, cap, wine
-	b = 0
-	h = 0
 	print 'wine', w
 	if w == 0:
 		return
@@ -45,8 +46,9 @@ def rock_n_roll(w):
 		rock_n_roll(w)
 
 if __name__ == '__main__':
-	 rstmoney = buy_wine(21)
-	 rock_n_roll(wine)
-	 print '\ndrinked total wine',wine,'lefted: bottle',bottle,'cap',cap 
-	 if rstmoney != 0:
-		 print 'you still got money:', rstmoney,'$'
+        arg = sys.argv[1]
+        restmoney = buy_wine(int(arg))
+        rock_n_roll(wine)
+        print '\ndrunk total wine',wine,'lefted: bottle',bottle,'cap',cap 
+        if restmoney != 0:
+            print 'you still got money:', restmoney,'$'
