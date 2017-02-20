@@ -10,8 +10,18 @@ import random
 import time
 import os, sys, string, re, glob
 
+#template folder need to be prepared
 template_folder = 'PC0FLR8T'
+#a sample xml file looks as below:
+#<?xml version="1.0" encoding="UTF-8"?>
+#-<summary>
+#+<AVT time="00:34:54" status="Done" index="0">
+#+<RUNIN time="00:40:47" status="Done" index="1">
+#+<PRELOAD time="01:24:53" status="Done" index="2">
+#+<FVT time="00:06:17" status="Testing" index="3">
+#</summary>
 filenam = 'all_groups_items.xml'
+#key words for search
 TIME_PATTERN = 'time='
 pattern_tst_steps = ['AVT', 'RUNIN','PRELOAD','FVT']
 
@@ -88,7 +98,7 @@ if __name__ == "__main__":
   	        for index, pattern in enumerate(pattern_tst_steps):
   	    	    if pattern in line:
   			        #print 'DEBUG>>',line
-  			        indx = line.index('time=')
+  			        indx = line.index(TIME_PATTERN)
   			        #print 'DEBUG>>'+time_modify_slots[index]
   			        line=line.replace(line[indx+6:-3], time_modify_slots[index])
   			        #print 'DEBUG after>>'+line
